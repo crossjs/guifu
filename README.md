@@ -2,6 +2,12 @@
 
 一个 SPAX 项目
 
+## 多端支持
+
+- RN
+- 小程序
+- H5
+
 ## related
 
 - https://www.ih5.cn/

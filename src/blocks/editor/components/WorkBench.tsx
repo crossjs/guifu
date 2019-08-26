@@ -1,4 +1,4 @@
-import { Chip, IconButton, Paper } from "@material-ui/core";
+import { Box, Chip, IconButton, NativeSelect, Paper } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Add, Remove } from "@material-ui/icons";
 import { useSharedState } from "@spax/hooks";
@@ -24,27 +24,28 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     workBenchDragger: {
       position: "absolute",
-      zIndex: 0,
       width: ({ width }) => width,
       height: ({ height }) => height,
       transform: ({ left, top }: any) => `translate(${left}px,${top}px)`,
-      transition: "transform 0.3s ease",
+      transition: "transform 0.3s ease, width 0.3s ease, height 0.3s ease",
     },
     workBenchToolbar: {
       position: "absolute",
       top: -50,
+      width: ({ width }) => width,
+      transition: "width 0.3s ease",
     },
     workBenchViewport: {
       position: "absolute",
-      zIndex: 0,
       width: ({ width }) => width,
       height: ({ height }) => height,
       transform: ({ scale }: any) => `scale(${scale},${scale})`,
-      transition: "transform 0.3s ease",
+      transition: "transform 0.3s ease, width 0.3s ease, height 0.3s ease",
     },
   }),
 );
 
+const deviceSizes = ["320×568", "360×640", "375×667", "375×812"];
 const scaleLevels = [0.2, 0.4, 0.5, 0.75, 0.8, 1];
 
 export const WorkBench: React.FC<any> = () => {
@@ -99,7 +100,6 @@ export const WorkBench: React.FC<any> = () => {
       if (didDrop) {
         return;
       }
-      console.log(blocks, item);
       setBlocks([...blocks, item.meta]);
     },
     collect: (monitor: DropTargetMonitor) => ({
@@ -137,16 +137,46 @@ export const WorkBench: React.FC<any> = () => {
           className={classes.workBenchDragger}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className={classes.workBenchToolbar}>
-            {width} × {height}
-            <IconButton onClick={() => setScaleLevel(-1)} aria-label="zoom out">
-              <Remove />
-            </IconButton>
-            <Chip label={`${scale * 100}%`} onClick={() => setScaleLevel(0)} />
-            <IconButton onClick={() => setScaleLevel(1)} aria-label="zoom in">
-              <Add />
-            </IconButton>
-          </div>
+          <Box
+            className={classes.workBenchToolbar}
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <div>
+              <NativeSelect
+                value={`${width}×${height}`}
+                onChange={(e) => {
+                  const [w, h] = e.target.value.split("×");
+                  setWidth(+w);
+                  setHeight(+h);
+                }}
+              >
+                {deviceSizes.map((value) => {
+                  return (
+                    <option key={value} value={value}>
+                      {value}
+                    </option>
+                  );
+                })}
+              </NativeSelect>
+            </div>
+            <div>
+              <IconButton
+                onClick={() => setScaleLevel(-1)}
+                aria-label="zoom out"
+              >
+                <Remove />
+              </IconButton>
+              <Chip
+                label={`${scale * 100}%`}
+                onClick={() => setScaleLevel(0)}
+              />
+              <IconButton onClick={() => setScaleLevel(1)} aria-label="zoom in">
+                <Add />
+              </IconButton>
+            </div>
+          </Box>
           <Paper
             ref={componentDrop}
             className={classes.workBenchViewport}

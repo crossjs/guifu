@@ -1,5 +1,5 @@
 import { BottomNavigation } from "@material-ui/core";
-import { Waves as WavesIcon } from "@material-ui/icons";
+import { CallToAction as CallToActionIcon } from "@material-ui/icons";
 import React, { useState } from "react";
 import { DropTargetMonitor, useDrop } from "react-dnd";
 import { useBlocks } from "../../hooks/useBlocks";
@@ -8,7 +8,7 @@ import { DragItem } from "../../types";
 export default {
   name: "Nav",
   type: "block",
-  icon: WavesIcon,
+  icon: CallToActionIcon,
   component: React.forwardRef(function ComponentNav(
     { children, ...props }: any,
     ref,

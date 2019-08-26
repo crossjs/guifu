@@ -18,7 +18,7 @@ export default {
     },
     theme: {
       logoImage: require("images/logo.png"),
-      siteTitle: "spax",
+      siteTitle: "guifu",
     },
     lazy: {
       fallback: <Loading />,
