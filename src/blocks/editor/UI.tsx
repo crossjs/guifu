@@ -1,8 +1,8 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import React, { ReactNode, useState } from "react";
-import { DrawerLeft } from "./DrawerLeft";
-import { DrawerRight } from "./DrawerRight";
-import { WorkBench } from "./WorkBench";
+import React, { ReactNode } from "react";
+import { DrawerLeft } from "./components/DrawerLeft";
+import { DrawerRight } from "./components/DrawerRight";
+import { WorkBench } from "./components/WorkBench";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
